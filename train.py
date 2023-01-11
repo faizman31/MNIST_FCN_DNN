@@ -60,7 +60,7 @@ def main(config):
         config = config 
     )
 
-    trainer.save({
+    torch.save({
         'model' : trainer.model.state_dict(),
         'opt' : optimizer.state_dict(),
         'config' : config
