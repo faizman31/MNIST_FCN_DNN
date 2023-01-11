@@ -37,6 +37,6 @@ def get_hidden_size(input_size,output_size,n_layers):
 
     for i in range(n_layers-1):
         hidden_sizes += [current_size - step_size]
-        current_size = hidden_size[-1]
+        current_size = hidden_sizes[-1]
 
     return hidden_sizes
