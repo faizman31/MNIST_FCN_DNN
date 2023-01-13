@@ -13,11 +13,17 @@
 - Validation data = 12,000개 
 
 ## 2. 모델 구성
+모델의 각 계층은 Block으로 구성되어 있으며 Block 내부 구조는 다음과 같습니다.
+### Block
 - linear transformation : nn.Linear
 - activation function : nn.LeakyReLU
 - Regularization : BatchNormalization or Dropout
 
-입력으로 모델의 계층의수(n_layers)가 들어오면 MNIST 숫자 데이터의 입력의 크기(784)에서 최종 출력계층의 크기(10) 사이 등차 간격으로 은닉 계층의 뉴런의 개수가 정해집니다. -> utils.py
+입력으로 모델의 계층의수(n_layers)가 들어오면 MNIST 숫자 데이터의 입력의 크기(784)에서 최종 출력계층의 크기(10) 사이 등차 간격으로 은닉 계층의 뉴런의 개수가 정해집니다. 
+
+
+
+
 
 
  
