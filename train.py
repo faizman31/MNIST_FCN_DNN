@@ -46,7 +46,7 @@ def main(config):
         input_size,
         output_size,
         hidden_sizes = get_hidden_size(input_size,output_size,config.n_layers),
-        use_batch_norm = config.use_dropout,
+        use_batch_norm = not config.use_dropout,
         dropout_p = config.dropout_p,
     ).to(device)
     optimizer = optim.Adam(model.parameters())
