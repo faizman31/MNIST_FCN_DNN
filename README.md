@@ -62,7 +62,7 @@ class Block(nn.Module):
 
 ````
 
-- class ImageClassifier
+- Class ImageClassifier
 ````
 class ImageClassifier(nn.Module):
     def __init__(self,
@@ -101,9 +101,37 @@ class ImageClassifier(nn.Module):
         return y
 ````
 
+### Trainer.py
+모델과 config 파일을 받아 모델의 학습과정(train)과 검증과정(validate)을 구현해놓은 코드입니다.
+### Train.py
+모델 학습에 필요한 입력(Config)을 결정하고 Trainer 객체를 사용해 모델을 학습하여 분류 모델을 생성하는 코드입니다.
 
+## 모델 학습
+```
+python train.py train.py [-h] --model_fn MODEL_FN [--gpu_id GPU_ID] [--train_ratio TRAIN_RATIO] [--batch_size BATCH_SIZE] [--n_epochs N_EPOCHS] [--n_layers N_LAYERS] [--use_dropout] [--dropout_p DROPOUT_P] [--verbose VERBOSE]
+```
 
-
+## 학습 및 성능 평가
+다음 모델에 관한 성능 평가는 predict.ipynb 에서 확인할 수 있습니다.
+- gpu_id : cpu (M1)
+- train_ratio : 0.8 
+- batch_size : 256
+- n_epochs : 10
+- n_layers : 10
+- verbose : 1
+- Regularization : BatchNormalization 
+```
+Epoch(1/10) : train_loss=2.6254e-01 valid_loss=1.5636e-01 lowest_loss=1.5636e-01
+Epoch(2/10) : train_loss=1.1821e-01 valid_loss=1.1337e-01 lowest_loss=1.1337e-01
+Epoch(3/10) : train_loss=8.7279e-02 valid_loss=9.1607e-02 lowest_loss=9.1607e-02
+Epoch(4/10) : train_loss=6.6344e-02 valid_loss=1.0336e-01 lowest_loss=9.1607e-02
+Epoch(5/10) : train_loss=6.6612e-02 valid_loss=9.6736e-02 lowest_loss=9.1607e-02
+Epoch(6/10) : train_loss=5.1307e-02 valid_loss=8.4703e-02 lowest_loss=8.4703e-02
+Epoch(7/10) : train_loss=4.5228e-02 valid_loss=8.8511e-02 lowest_loss=8.4703e-02
+Epoch(8/10) : train_loss=4.0695e-02 valid_loss=8.8167e-02 lowest_loss=8.4703e-02
+Epoch(9/10) : train_loss=3.9923e-02 valid_loss=7.5557e-02 lowest_loss=7.5557e-02
+Epoch(10/10) : train_loss=3.1283e-02 valid_loss=8.8014e-02 lowest_loss=7.5557e-02
+```
 
 
  
