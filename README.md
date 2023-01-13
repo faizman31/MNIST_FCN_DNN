@@ -111,8 +111,8 @@ class ImageClassifier(nn.Module):
 python train.py train.py [-h] --model_fn MODEL_FN [--gpu_id GPU_ID] [--train_ratio TRAIN_RATIO] [--batch_size BATCH_SIZE] [--n_epochs N_EPOCHS] [--n_layers N_LAYERS] [--use_dropout] [--dropout_p DROPOUT_P] [--verbose VERBOSE]
 ```
 
-## 학습 및 성능 평가
-다음 모델에 관한 성능 평가는 predict.ipynb 에서 확인할 수 있습니다.
+## 학습 성능 평가
+다음 모델에 관한 자세한 성능 평가 코드는 predict.ipynb 에서 확인할 수 있습니다.
 - gpu_id : cpu (M1)
 - train_ratio : 0.8 
 - batch_size : 256
@@ -132,6 +132,7 @@ Epoch(8/10) : train_loss=4.0695e-02 valid_loss=8.8167e-02 lowest_loss=8.4703e-02
 Epoch(9/10) : train_loss=3.9923e-02 valid_loss=7.5557e-02 lowest_loss=7.5557e-02
 Epoch(10/10) : train_loss=3.1283e-02 valid_loss=8.8014e-02 lowest_loss=7.5557e-02
 ```
+- Accuracy :0.9785 
 
 
  
