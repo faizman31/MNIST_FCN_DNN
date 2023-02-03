@@ -1,5 +1,5 @@
 # MNIST_FC_DNN
-
+> 2023/02/03 : PyTorch 의 Dataset,DataLoader 사용 코드 추가
 ## 본 Repository는 패스트캠퍼스의 딥러닝 유치원 강좌를 참고로 제작되었습니다.
 
 ## 1. 문제 정의
