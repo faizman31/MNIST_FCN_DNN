@@ -4,10 +4,12 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
+from torch.utils.data import DataLoader
 
 from trainer import *
 from model import *
 from utils import *
+from dataset import MNISTDataset
 
 def define_argparser():
     p = argparse.ArgumentParser()
@@ -39,6 +41,17 @@ def main(config):
     print('Train : ',x[0].shape,y[0].shape)
     print('Valid : ',x[1].shape,y[1].shape)
 
+    train_loader = DataLoader(
+        dataset = MNISTDataset(x[0],y[0]),
+        batch_size=config.batch_size,
+        shuffle=True
+    )
+    valid_loader = DataLoader(
+        dataset = MNISTDataset(x[1],y[1])
+        batch_size=config.batch_size,
+        shuffle=False
+    )
+
     input_size = int(x[0].shape[-1])
     output_size = int(max(y[0]))+1
 
@@ -60,8 +73,8 @@ def main(config):
     trainer = Trainer(model,optimizer,crit)
 
     trainer.train(
-        train_data = (x[0],y[0]),
-        valid_data = (x[1],y[1]),
+        train_loader = train_loader,
+        valid_loader = valid_loader,
         config = config 
     )
 
