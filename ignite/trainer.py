@@ -55,7 +55,50 @@ class MyEngine(Engine):
         g_norm = float(get_grad_norm(engine.model.parameters()))
 
         engine.optimizer.step()
+
+        return {
+            'loss' : float(loss),
+            'accuracy' : accuracy,
+            '|param|' : p_norm,
+            '|g_param|': g_norm
+        }
+
+    @staticmethod
+    def validate(engine,mini_batch):
+        engine.model.eval()
+
+        with torch.no_grad():
+            x,y = mini_batch
+
+            y_hat = engine.model(y)
+
+            loss = engine.crit(y_hat,y)
+
+        if isinstance(y,torch.LongTensor) or isinstance(y,torch.cuda.LongTensor):
+            accuracy = (torch.argmax(y_hat,dim=-1)==y).sum() / float(y.shape[0])
+        else:
+            accuracy = 0
+
+        return {
+            'loss' : float(loss),
+            'accuracy' : float(accuracy)
+        }
+    
+    @staticmethod
+    def attach(train_engine,validation_engine,verbose=VEROBSE_BATCH_WISE):
+        def attach_running_average(engine,metric_name):
+            RunningAverage(output_transform=lambda x: x[metric_name]).attach(
+                engine,
+                metric_name
+            )
         
+        training_metric_names = ['loss','accuracy','|param|','|g_param|']
+
+        for metric_name in training_metric_names:
+            attach_running_average(train_engine,metric_name)
+
+
+
 
 class Trainer():
     def __init__(self,config):
@@ -71,4 +114,10 @@ class Trainer():
         validation_engine = MyEngine(
             MyEngine.validate,
             model,crit,optimizer,self.config
+        )
+
+        MyEngine.attach(
+            train_engine,
+            validation_engine,
+            verbose = self.config.verbose
         )
