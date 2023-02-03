@@ -18,6 +18,5 @@ class MNISTDataset(Dataset):
         if self.flatten:
             x = x.reshape(-1)
 
-        return x,y 
-
+        return x , y
     
