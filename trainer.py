@@ -12,24 +12,12 @@ class Trainer():
 
         super().__init__()
 
-    def _batchify(self,x,y,batch_size,random_split=True):
-        if random_split:
-            indices = torch.randperm(x.shape[0],device=x.device)
-            x = torch.index_select(x,dim=0,index=indices)
-            y = torch.index_select(y,dim=0,index=indices)
-
-        x = x.split(batch_size,dim=0)
-        y = y.split(batch_size,dim=0)
-
-        return x,y
-
-    def _train(self,x,y,config):
+    def _train(self,train_loader,config):
         self.model.train()
 
-        x,y = self._batchify(x,y,config.batch_size)
         total_loss = 0
 
-        for i , (x_i,y_i) in enumerate(zip(x,y)):
+        for i , (x_i,y_i) in enumerate(train_loader):
             y_hat_i = self.model(x_i)
             loss_i = self.crit(y_hat_i,y_i.squeeze())
 
@@ -39,37 +27,36 @@ class Trainer():
             self.optimizer.step()
 
             if config.verbose >=2:
-                print('Train Iteration(%d/%d) : loss=%.4e'%(i+1,len(x),float(loss_i)))
+                print('Train Iteration(%d/%d) : loss=%.4e'%(i+1,len(train_loader),float(loss_i)))
             
             total_loss += float(loss_i)
 
-        return total_loss / len(x)
+        return total_loss / len(train_loader)
             
-    def _validate(self,x,y,config):
+    def _validate(self,valid_loader,config):
         self.model.eval()
 
         with torch.no_grad():
-            x,y = self._batchify(x,y,config.batch_size,random_split=False)
             total_loss = 0 
 
-            for i,(x_i,y_i) in enumerate(zip(x,y)):
+            for i,(x_i,y_i) in enumerate(valid_loader):
                 y_hat_i = self.model(x_i)
                 loss_i = self.crit(y_hat_i,y_i.squeeze())
 
                 if config.verbose >= 2:
-                    print('Valid Iteration(%d/%d) : loss=%.4e'%(i+1,len(x),float(loss_i)))
+                    print('Valid Iteration(%d/%d) : loss=%.4e'%(i+1,len(valid_loader),float(loss_i)))
 
                 total_loss += float(loss_i)
 
-            return total_loss / len(x)
+            return total_loss / len(valid_loader)
 
-    def train(self,train_data,valid_data,config):
+    def train(self,train_loader,valid_loader,config):
         lowest_loss = np.inf
         best_model = None
 
         for epoch_index in range(config.n_epochs):
-            train_loss = self._train(train_data[0],train_data[1],config)
-            valid_loss = self._validate(valid_data[0],valid_data[1],config)
+            train_loss = self._train(train_loader,config)
+            valid_loss = self._validate(valid_loader,config)
 
             if valid_loss < lowest_loss:
                 lowest_loss = valid_loss
