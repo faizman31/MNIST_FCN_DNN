@@ -47,7 +47,7 @@ def main(config):
         shuffle=True
     )
     valid_loader = DataLoader(
-        dataset = MNISTDataset(x[1],y[1])
+        dataset = MNISTDataset(x[1],y[1]),
         batch_size=config.batch_size,
         shuffle=False
     )
