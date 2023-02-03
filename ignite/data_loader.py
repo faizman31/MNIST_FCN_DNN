@@ -69,4 +69,11 @@ def get_loaders(config):
         shuffle=True
     )
 
-    test_x,test_y
+    test_x,test_y = load_mnist(is_train=False,flatten=False)
+    test_loader = DataLoader(
+        dataset = MNISTDataset(test_x,test_y,flatten=True),
+        batch_size=config.batch_size,
+        shuffle=False
+    )
+
+    return train_loader,valid_loader,test_loader
