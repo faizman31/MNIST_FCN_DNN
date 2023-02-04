@@ -97,6 +97,12 @@ class MyEngine(Engine):
         for metric_name in training_metric_names:
             attach_running_average(train_engine,metric_name)
 
+        if verbose >= VERBOSE_BATCH_WISE:
+            pbar = ProgressBar(bar_format=None,ncols=120)
+            pbar.attach(train_engine,training_metric_names)
+
+            
+
 
 
 
