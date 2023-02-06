@@ -85,7 +85,7 @@ class MyEngine(Engine):
         }
     
     @staticmethod
-    def attach(train_engine,validation_engine,verbose=VEROBSE_BATCH_WISE):
+    def attach(train_engine,validation_engine,verbose=VERBOSE_BATCH_WISE):
         def attach_running_average(engine,metric_name):
             RunningAverage(output_transform=lambda x: x[metric_name]).attach(
                 engine,
