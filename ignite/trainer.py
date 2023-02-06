@@ -171,3 +171,22 @@ class Trainer():
             validation_engine,
             verbose = self.config.verbose
         )
+
+        def run_validation(engine,validation_engine,valid_loader):
+            validation_engine.run(valid_loader,max_epoch=1)
+
+        train_engine.add_event_handler(
+            Events.EPOCH_COMPLETED, # event
+            run_validation, # functions
+            validation_engine,valid_loader, # arguments
+        )
+
+        validation_engine.add_event_handler(
+            Events.EPOCH_COMPLETED,
+            MyEngine.save_model,
+            train_engine,self.config,
+        )
+
+        model.load_state_dict(validation_engine.best_model)
+
+        return model
