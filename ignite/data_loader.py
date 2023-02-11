@@ -14,7 +14,7 @@ class MNISTDataset(Dataset):
     def __getitem__(self,idx):
         x = self.data[idx]
         y = self.labels[idx]
-
+        
         if self.flatten:
             x = x.reshape(-1)
 

@@ -183,6 +183,11 @@ class Trainer():
 
         validation_engine.add_event_handler(
             Events.EPOCH_COMPLETED,
+            MyEngine.check_best
+        )
+
+        validation_engine.add_event_handler(
+            Events.EPOCH_COMPLETED,
             MyEngine.save_model,
             train_engine,self.config,
         )
